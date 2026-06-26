@@ -1,9 +1,30 @@
-const arrayToList = arr => arr.reduceRight((rest, value) => ({ value, rest }), null);
-const listToArray = list => {
-  const arr = [];
-  for (let node = list; node; node = node.rest) arr.push(node.value);
-  return arr;
-};
-const prepend = (value, rest) => ({ value, rest });
-const nth = (list, n) => !list ? undefined : n === 0 ? list.value : nth(list.rest, n - 1);
-console.log(arrayToList([10, 20]));
+function arrayToList(array) {
+  let list = null
+  for (let i = array.length - 1; i >= 0; i--) {
+    list = { value: array[i], rest: list }
+  }
+  return list
+}
+function listToArray(list) {
+  let array = []
+  for (let node = list; node; node = node.rest) {
+    array.push(node.value)
+  }
+  return array
+}
+function prepend(element, list) {
+  return { value: element, rest: list }
+}
+function nth(list, n) {
+  for (let node = list; node; node = node.rest) {
+    if (n === 0) return node.value
+    n--
+  }
+  return undefined
+}
+function nthRecursive(list, n) {
+  if (!list) return undefined
+  if (n === 0) return list.value
+  return nthRecursive(list.rest, n - 1)
+}
+console.log(listToArray(arrayToList([10, 20, 30])))
